@@ -153,14 +153,10 @@
   <ItemGroup>
     <ClCompile Include="brightener.cpp" />
     <ClCompile Include="brightening-lambda.cpp" />
-    <ClCompile Include="experimental-brightener.cpp" />
-    <ClCompile Include="pixelbrightener.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="brightener.h" />
-    <ClInclude Include="experimental-brightener.h" />
     <ClInclude Include="image.h" />
-    <ClInclude Include="ipixelprocessor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
