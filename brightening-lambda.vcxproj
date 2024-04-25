@@ -151,7 +151,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="brightener.cpp" />
     <ClCompile Include="brightening-lambda.cpp" />
   </ItemGroup>
   <ItemGroup>
