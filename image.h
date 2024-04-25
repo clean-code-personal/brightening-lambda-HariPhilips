@@ -1,41 +1,40 @@
 #pragma once
 #include <cstdint>
 #include <iostream>
-#include "ipixelprocessor.h"
 #include <functional>
+
+constexpr int PixelCountMax = 1024;
 
 class Image {
 public:
+
+	using PixelProcessCallback = std::function < uint8_t(uint8_t)>;
+
 	Image(uint16_t rows, uint16_t columns): m_rows(rows), m_columns(columns) {
-		pixels = new uint8_t[m_rows * m_columns];
+		m_pixels = new uint8_t[m_rows * m_columns];
 	}
+
 	~Image() {
 		std::cout << "freeing pixel memory.\n";
-		delete[] pixels;
+		delete[] m_pixels;
 	}
-	bool imageSizeIsValid() {
-		return m_rows <= 1024 && m_columns <= 1024;
+
+	bool isSizeValid() {
+		return m_rows <= PixelCountMax && m_columns <= PixelCountMax;
 	}
-	void pixelRunner(IPixelProcessor* pixelProcessor) {
-		std::cout << "-- pixelRunner: interface version\n";
-		for (int x = 0; x < m_rows; x++) {
-			for (int y = 0; y < m_columns; y++) {
-				int pixelIndex = x * m_columns + y;
-				pixels[pixelIndex] = pixelProcessor->processPixel(pixels[pixelIndex], x, y);
-			}
-		}
-	}
-	void pixelRunner(std::function<uint8_t(uint8_t, int, int)> pixelProcessor) {
+
+	void pixelRunner(PixelProcessCallback pixelProcessor) {
 		std::cout << "-- pixelRunner: lambda version\n";
 		for (int x = 0; x < m_rows; x++) {
 			for (int y = 0; y < m_columns; y++) {
 				int pixelIndex = x * m_columns + y;
-				pixels[pixelIndex] = pixelProcessor(pixels[pixelIndex], x, y);
+				m_pixels[pixelIndex] = pixelProcessor(m_pixels[pixelIndex]);
 			}
 		}
 	}
+
 private:
 	const uint16_t m_rows;
 	const uint16_t m_columns;
-	uint8_t* pixels; // max 1k x 1k image
+	uint8_t* m_pixels; // max 1k x 1k image
 };
